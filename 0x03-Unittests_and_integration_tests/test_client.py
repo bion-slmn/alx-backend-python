@@ -29,7 +29,6 @@ class TestGithubOrgClient(unittest.TestCase):
 
         obj = GithubOrgClient(args)
         self.assertEqual(obj.org(), resp)
-        #print(obj.org())
         url = "https://api.github.com/orgs/{}".format(args)
         mock_get.assert_called_once_with(url)
 
