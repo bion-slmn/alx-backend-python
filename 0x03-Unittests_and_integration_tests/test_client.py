@@ -29,7 +29,7 @@ class TestGithubOrgClient(unittest.TestCase):
 
         obj = GithubOrgClient(args)
         self.assertEqual(obj.org(), resp)
-        print(obj.org())
+        #print(obj.org())
         url = "https://api.github.com/orgs/{}".format(args)
         mock_get.assert_called_once_with(url)
 
@@ -57,7 +57,7 @@ class TestGithubOrgClient(unittest.TestCase):
             result = obj.public_repos()
             self.assertEqual(result, ['repo1', 'repo2'])
             mock_repo_url.assert_called_once()
-            mock_get_json.assert_called_once()
+        mock_get_json.assert_called_once()
 
     @parameterized.expand([
         ({"license": {"key": "my_license"}}, "my_license", True),
