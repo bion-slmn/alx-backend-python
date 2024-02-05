@@ -19,16 +19,17 @@ from utils import (
 class TestGithubOrgClient(unittest.TestCase):
     '''test the method of class GithubOrgClient'''
     @parameterized.expand([
-        ('google',  {'login': "google"}),
+        ('google', {'login': "google"}),
         ('abc', {'login': "abc"}),
         ])
     @patch('client.get_json')
     def test_org(self, args: str, resp: Dict, mock_get: MagicMock) -> None:
-        '''test org method'''
+        '''test org method functionality'''
         mock_get.return_value = MagicMock(return_value=resp)
 
         obj = GithubOrgClient(args)
         self.assertEqual(obj.org(), resp)
+        print(obj.org())
         url = "https://api.github.com/orgs/{}".format(args)
         mock_get.assert_called_once_with(url)
 
@@ -62,11 +63,9 @@ class TestGithubOrgClient(unittest.TestCase):
         ({"license": {"key": "my_license"}}, "my_license", True),
         ({"license": {"key": "other_license"}}, "my_license", False)
         ])
-    @patch('client.access_nested_map')
     def test_has_license(self, repo: Dict[str, Dict], license_key: str,
-                         expected: bool, mock_accessmap: MagicMock) -> None:
+                         expected: bool) -> None:
         '''tests the has_licence '''
-        mock_accessmap.return_value = repo.get('license').get('key')
         self.assertIsNotNone(license_key)
         result = GithubOrgClient('google').has_license(repo, license_key)
         self.assertEqual(result, expected)
