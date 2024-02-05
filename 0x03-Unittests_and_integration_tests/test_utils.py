@@ -67,10 +67,11 @@ class TestMemoize(unittest.TestCase):
         ''' Test that when calling a_property twice,
         the correct result is returned but a_method is only called once '''
         class TestClass:
-            def a_method(self):
+            def a_method(self) -> int:
+                '''a class method'''
                 return 42
             @memoize
-            def a_property(self):
+            def a_property(self) -> int:
                 return self.a_method()
         with patch.object(TestClass,'a_method') as test:
             test.return_value = 5
